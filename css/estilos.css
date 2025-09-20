@@ -1,0 +1,234 @@
+/* --- Fuentes y Variables Globales --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+:root {
+    --color-azul-rey: #0052cc; /* Un azul rey vibrante pero profesional */
+    --color-azul-oscuro: #003f99;
+    --color-fondo: #f4f6f8;
+    --color-blanco: #ffffff;
+    --color-texto: #333333;
+    --color-borde: #dddddd;
+    --sombra-caja: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --borde-redondeado: 8px;
+    --fuente-principal: 'Montserrat', sans-serif;
+}
+
+/* --- Estilos Generales y Reseteo --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--fuente-principal);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Contenedor Principal --- */
+/* Usa esta clase para centrar el contenido principal en cada página */
+.container {
+    width: 100%;
+    max-width: 450px; /* Ancho ideal para formularios de login y carga */
+    padding: 2rem;
+}
+
+/* --- Tipografía --- */
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: var(--color-azul-rey);
+}
+
+a {
+    color: var(--color-azul-rey);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--color-azul-oscuro);
+    text-decoration: underline;
+}
+
+/* --- Formularios Minimalistas --- */
+.form-container {
+    background-color: var(--color-blanco);
+    padding: 2.5rem;
+    border-radius: var(--borde-redondeado);
+    box-shadow: var(--sombra-caja);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--borde-redondeado);
+    font-family: var(--fuente-principal);
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--color-azul-rey);
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.2);
+}
+
+/* --- Botones --- */
+.btn {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: var(--borde-redondeado);
+    font-family: var(--fuente-principal);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-azul-rey);
+    color: var(--color-blanco);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-azul-oscuro);
+}
+
+.btn:active {
+    transform: scale(0.98); /* Efecto de "presionado" */
+}
+
+/* --- Alertas y Mensajes --- */
+.alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--borde-redondeado);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+/* --- Layout Principal y Barra Lateral --- */
+
+/* Reseteamos los estilos de centrado del body que usamos para el login */
+body.main-app {
+    display: block;
+    justify-content: initial;
+    align-items: initial;
+}
+
+.sidebar {
+    height: 100%;
+    width: 260px;
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: var(--color-azul-rey);
+    overflow-x: hidden;
+    padding-top: 20px;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%); /* Oculto por defecto fuera de la pantalla */
+}
+
+.sidebar.active {
+    transform: translateX(0); /* Se muestra al agregar la clase 'active' */
+}
+
+.sidebar-header {
+    color: var(--color-blanco);
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.sidebar a {
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #e0e0e0; /* Un blanco un poco más suave */
+    display: block;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-left: 4px solid transparent; /* Indicador visual */
+}
+
+.sidebar a:hover {
+    background-color: var(--color-azul-oscuro);
+    color: var(--color-blanco);
+    text-decoration: none;
+    border-left: 4px solid #64b5f6; /* Un azul más claro para el indicador */
+}
+
+.sidebar .logout-link {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+}
+
+.main-content {
+    background-color: var(--color-blanco);
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+    margin-left: 0; /* Por defecto, ocupa todo el ancho */
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: var(--borde-redondeado);
+    box-shadow: var(--sombra-caja);
+}
+
+
+/* --- Botón del Menú (Hamburguesa) --- */
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* Siempre encima de la barra */
+    background: var(--color-azul-rey);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.alert-success {
+    background-color: #e8f5e9; /* Un verde muy claro */
+    color: #2e7d32; /* Verde oscuro para el texto */
+    border: 1px solid #a5d6a7; /* Borde verde claro */
+}
