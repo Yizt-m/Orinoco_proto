@@ -47,9 +47,9 @@ require_once 'php/verificar_sesion.php';
 
                 <div class="form-group">
                     <label for="archivo_freshdesk">
-                        <strong>Archivo Freshdesk (Formato: .xlsx)</strong>
+                        <strong>Archivo Freshdesk (Formato: .csv)</strong>
                     </label>
-                    <input type="file" id="archivo_freshdesk" name="archivo_freshdesk" class="input-field" required accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                    <input type="file" id="archivo_freshdesk" name="archivo_freshdesk" class="input-field" accept=" .csv">
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">

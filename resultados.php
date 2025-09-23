@@ -13,7 +13,13 @@ $resultado_json = $_SESSION['resultado_reporte'];
 $nombres_archivos = $_SESSION['nombres_archivos'];
 unset($_SESSION['resultado_reporte'], $_SESSION['nombres_archivos']);
 
-$datos = json_decode($resultado_json, true);
+$datos_completos = json_decode($resultado_json, true);
+
+// Separamos los datos para usarlos más fácilmente
+$datos_comparacion = $datos_completos['comparacion'] ?? [];
+$datos_paises = $datos_completos['validacion_paises'] ?? [];
+$error = $datos_completos['error'] ?? null;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,6 +37,7 @@ $datos = json_decode($resultado_json, true);
         th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f2f2f2; }
         tr:nth-child(even) { background-color: #f9f9f9; }
+        .section-divider { margin-top: 3rem; border-top: 2px solid #eee; padding-top: 2rem; }
     </style>
 </head>
 <body class="main-app">
@@ -70,7 +77,7 @@ $datos = json_decode($resultado_json, true);
                             <?php if (isset($datos[0]['error'])): ?>
                                 <tr><td colspan="9" class="status-error">Error al procesar los archivos: <?= htmlspecialchars($datos[0]['error']) ?></td></tr>
                             <?php else: ?>
-                                <?php foreach ($datos as $fila): ?>
+                                <?php foreach ($datos_comparacion as $fila): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($fila['Servicio']) ?></td>
                                         <td><?= $fila['Cant_Ops_AT48'] ?></td>
@@ -87,6 +94,30 @@ $datos = json_decode($resultado_json, true);
                             <?php endif; ?>
                         </tbody>
                 </table>
+            </div>
+            <div class="section-divider">
+                <h2>Validación de Países de Destino</h2>
+                <?php if (empty($datos_paises)): ?>
+                    <div class="alert alert-success">✅ Todo correcto. Todos los países en el archivo AT48 son válidos.</div>
+                <?php else: ?>
+                    <p>Se encontraron las siguientes operaciones con países de destino no reconocidos:</p>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr><th>RIF / Cédula</th><th>Nombre del Cliente</th><th>País No Válido</th></tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($datos_paises as $pais): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($pais['Identificación Tipo Persona RIF']) ?></td>
+                                        <td><?= htmlspecialchars($pais['Nombre del Cliente']) ?></td>
+                                        <td class="status-error"><?= htmlspecialchars($pais['Pais destino de la Transferencia']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
             </div>
             <a href="principal.php" class="btn btn-primary" style="margin-top: 2rem; width: auto; display: inline-block;">Volver al Menú</a>
         </div>
