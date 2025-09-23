@@ -5,49 +5,63 @@ import json
 
 def procesar_reportes(ruta_at48, ruta_d01):
     try:
-        # --- Lista de Países Válidos ---
         paises_validos = {
-            'AF', 'AL', 'DZ', 'AS', 'AD', 'AO', 'AI', 'AQ', 'AG', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ',
-            'BS', 'BH', 'BD', 'BB', 'BY', 'BE', 'BZ', 'BJ', 'BM', 'BO', 'BA', 'BW', 'BV', 'BR', 'IO',
-            'BN', 'BT', 'BG', 'BF', 'BI', 'TD', 'KH', 'CM', 'CA', 'CV', 'KY', 'CF', 'CL', 'CN', 'CX',
-            'CC', 'CO', 'KM', 'CK', 'CR', 'HR', 'CU', 'CY', 'CZ', 'DK', 'DJ', 'DM', 'DO', 'TP', 'EC',
-            'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FO', 'FK', 'FJ', 'FI', 'FR', 'G', 'PF', 'TF', 'GA',
-            'GM', 'GE', 'DE', 'GH', 'GI', 'GR', 'GL', 'GD', 'GP', 'GU', 'GT', 'GG', 'GN', 'GW', 'GY',
-            'HT', 'HM', 'VA', 'HN', 'HK', 'HU', 'IS', 'IN', 'ID', 'IR', 'IQ', 'IE', 'IM', 'IL', 'IT',
-            'CI', 'JM', 'JP', 'JE', 'JO', 'KZ', 'KE', 'KI', 'KP', 'KR', 'KW', 'KG', 'LA', 'LV', 'LB',
-            'LS', 'LR', 'LY', 'LI', 'LT', 'LU', 'MO', 'MK', 'MG', 'MW', 'MY', 'MV', 'ML', 'MT', 'MH',
-            'MQ', 'MR', 'MU', 'YT', 'MX', 'FM', 'MD', 'MC', 'MN', 'MS', 'MA', 'MZ', 'MM', 'NA', 'NR',
-            'NP', 'AN', 'NL', 'NC', 'NZ', 'NI', 'NE', 'NG', 'UN', 'NF', 'MP', 'NO', 'OM', 'PK', 'PL',
-            'PW', 'PS', 'PA', 'PZ', 'PG', 'PY', 'PE', 'PH', 'PN', 'PT', 'PR', 'QA', 'CG', 'RE', 'RO',
-            'RU', 'RW', 'KN', 'LC', 'VC', 'WS', 'SM', 'ST', 'SA', 'SN', 'RS', 'SC', 'SL', 'SG', 'SK',
-            'SB', 'SO', 'ZA', 'GS', 'ES', 'LK', 'SH', 'PM', 'SD', 'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY',
-            'TW', 'TJ', 'TZ', 'TH', 'TG', 'TK', 'TO', 'TT', 'TN', 'TR', 'TM', 'TC', 'TV', 'AE', 'UG',
-            'UA', 'GB', 'US', 'UM', 'UY', 'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'WF', 'EH', 'YE', 'YU',
-            'ZR', 'ZM', 'ZW', '0'
+            'AF', 'AL', 'DZ', 'AS', 'AD', 'AO', 'AI', 'AQ', 'AG', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ', 
+            'BS', 'BH', 'BD', 'BB', 'BY', 'BE', 'BZ', 'BJ', 'BM', 'BO', 'BA', 'BW', 'BV', 'BR', 'IO', 
+            'BN', 'BT', 'BG', 'BF', 'BI', 'TD', 'KH', 'CM', 'CA', 'CV', 'KY', 'CF', 'CL', 'CN', 'CX', 
+            'CC', 'CO', 'KM', 'CK', 'CR', 'HR', 'CU', 'CY', 'CZ', 'DK', 'DJ', 'DM', 'DO', 'TP', 'EC', 
+            'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FO', 'FK', 'FJ', 'FI', 'FR', 'G', 'PF', 'TF', 'GA', 
+            'GM', 'GE', 'DE', 'GH', 'GI', 'GR', 'GL', 'GD', 'GP', 'GU', 'GT', 'GG', 'GN', 'GW', 'GY', 
+            'HT', 'HM', 'VA', 'HN', 'HK', 'HU', 'IS', 'IN', 'ID', 'IR', 'IQ', 'IE', 'IM', 'IL', 'IT', 
+            'CI', 'JM', 'JP', 'JE', 'JO', 'KZ', 'KE', 'KI', 'KP', 'KR', 'KW', 'KG', 'LA', 'LV', 'LB', 
+            'LS', 'LR', 'LY', 'LI', 'LT', 'LU', 'MO', 'MK', 'MG', 'MW', 'MY', 'MV', 'ML', 'MT', 'MH', 
+            'MQ', 'MR', 'MU', 'YT', 'MX', 'FM', 'MD', 'MC', 'MN', 'MS', 'MA', 'MZ', 'MM', 'NA', 'NR', 
+            'NP', 'AN', 'NL', 'NC', 'NZ', 'NI', 'NE', 'NG', 'UN', 'NF', 'MP', 'NO', 'OM', 'PK', 'PL', 
+            'PW', 'PS', 'PA', 'PZ', 'PG', 'PY', 'PE', 'PH', 'PN', 'PT', 'PR', 'QA', 'CG', 'RE', 'RO', 
+            'RU', 'RW', 'KN', 'LC', 'VC', 'WS', 'SM', 'ST', 'SA', 'SN', 'RS', 'SC', 'SL', 'SG', 'SK', 
+            'SB', 'SO', 'ZA', 'GS', 'ES', 'LK', 'SH', 'PM', 'SD', 'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY', 
+            'TW', 'TJ', 'TZ', 'TH', 'TG', 'TK', 'TO', 'TT', 'TN', 'TR', 'TM', 'TC', 'TV', 'AE', 'UG', 
+            'UA', 'GB', 'US', 'UM', 'UY', 'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'WF', 'EH', 'YE', 'YU', 
+            'ZR', 'ZM', 'ZW',
+            # --- NUEVA LÓGICA: Se añade '0' como un valor de país válido ---
+            '0'
         }
-        # --- 1. Cargar Archivo AT48 ---
-        at48_headers = [
-            'Tipo Persona RIF', 'Identificación Tipo Persona RIF', 'Nombre del Cliente', 
-            'Condicón de Residencia', 'Actividad Economica Cliente', 'Fecha de Operación', 
-            'Tipo Operación Cambiaria', 'Movimiento de la Transacción', 'Tipo de Operación Divisa', 
-            'Moneda', 'Monto Divisa', 'Tipo Cambio', 'Contravalor en Bs', 
-            'Pais destino de la Transferencia', 'Destino de los Fondos', 'Medio de Pago', 
-            'Porcentaje de Comisión', 'Monto de Comisión (Bs)', 'Tipo de Cambio Adquisición', 
-            'Tipo de Cambio Según Libros', 'Ganancia y/o Pérdidas en Bs', 'Referencia de la Operación'
-        ]
-        df_at48 = pd.read_csv(ruta_at48, sep='~', header=None, names=at48_headers, dtype=str)
 
-        # --- 2. Cargar Archivo D01 ---
+        at48_headers = ['Tipo Persona RIF', 'Identificación Tipo Persona RIF', 'Nombre del Cliente', 'Condicón de Residencia', 'Actividad Economica Cliente', 'Fecha de Operación', 'Tipo Operación Cambiaria', 'Movimiento de la Transacción', 'Tipo de Operación Divisa', 'Moneda', 'Monto Divisa', 'Tipo Cambio', 'Contravalor en Bs', 'Pais destino de la Transferencia', 'Destino de los Fondos', 'Medio de Pago', 'Porcentaje de Comisión', 'Monto de Comisión (Bs)', 'Tipo de Cambio Adquisición', 'Tipo de Cambio Según Libros', 'Ganancia y/o Pérdidas en Bs', 'Referencia de la Operación']
+        df_at48 = pd.read_csv(ruta_at48, sep='~', header=None, names=at48_headers, dtype=str)
         df_d01 = pd.read_csv(ruta_d01, sep=',', dtype=str)
         df_d01.columns = df_d01.columns.str.strip()
+        
+        # --- LÓGICA DE SERVICIOS (SIN CAMBIOS) ---
+        condiciones_servicios = [
+            (df_at48['Movimiento de la Transacción'] == '2') & (df_at48['Tipo de Operación Divisa'] == '7'),
+            (df_at48['Movimiento de la Transacción'] == '2') & (df_at48['Tipo de Operación Divisa'] == '3'),
+            (df_at48['Movimiento de la Transacción'] == '1') & (df_at48['Tipo de Operación Divisa'] == '7'),
+            (df_at48['Movimiento de la Transacción'] == '1') & (df_at48['Tipo de Operación Divisa'] == '3')
+        ]
+        nombres_servicios = ['COMPRA DE DIVISAS PAGO INTERNACIONAL WU', 'COMPRA DE DIVISAS EN EFECTIVO', 'VENTA DE DIVISAS ENVÍO INTERNACIONAL WU', 'VENTA DE DIVISAS EN EFECTIVO']
+        df_at48['Servicio'] = np.select(condiciones_servicios, nombres_servicios, default='No Identificado')
 
-        # --- INICIO DEL ANÁLISIS DE PAÍSES ---
-        # Limpiamos espacios en blanco y filtramos los países que NO están en la lista
-        df_at48['Pais destino de la Transferencia'] = df_at48['Pais destino de la Transferencia'].str.strip()
-        paises_invalidos = df_at48[~df_at48['Pais destino de la Transferencia'].isin(paises_validos) & df_at48['Pais destino de la Transferencia'].notna()]
-        resultado_paises = paises_invalidos[['Identificación Tipo Persona RIF', 'Nombre del Cliente', 'Pais destino de la Transferencia']].to_dict(orient='records')
-
-        # --- 3. Procesar AT48 ---
+        # --- NUEVA LÓGICA DE VALIDACIÓN DE PAÍSES ---
+        # 1. Definimos los servicios que requieren validación de país
+        servicios_a_validar = ['COMPRA DE DIVISAS PAGO INTERNACIONAL WU', 'VENTA DE DIVISAS ENVÍO INTERNACIONAL WU']
+        
+        # 2. Filtramos el AT48 para quedarnos solo con esos servicios
+        df_para_validar = df_at48[df_at48['Servicio'].isin(servicios_a_validar)].copy()
+        
+        # 3. Limpiamos la columna de países en este subconjunto de datos
+        df_para_validar['Pais destino de la Transferencia'] = df_para_validar['Pais destino de la Transferencia'].str.strip()
+        
+        # 4. Buscamos los inválidos (los que no están en la lista Y los que están vacíos/nulos)
+        paises_invalidos = df_para_validar[
+            ~df_para_validar['Pais destino de la Transferencia'].isin(paises_validos) |
+            df_para_validar['Pais destino de la Transferencia'].isna()
+        ]
+        
+        # 5. SOLUCIÓN AL ERROR DE JSON: Reemplazamos valores nulos por un texto para evitar que el script falle
+        resultado_paises = paises_invalidos[['Identificación Tipo Persona RIF', 'Nombre del Cliente', 'Pais destino de la Transferencia']].fillna('DATO VACÍO').to_dict(orient='records')
+        
+        # (El resto del código de procesamiento y comparación sigue igual)
         df_at48['Monto Divisa'] = pd.to_numeric(df_at48['Monto Divisa'].str.replace(',', '.', regex=False), errors='coerce').fillna(0)
         df_at48['Contravalor en Bs'] = pd.to_numeric(df_at48['Contravalor en Bs'].str.replace(',', '.', regex=False), errors='coerce').fillna(0)
         condiciones = [
